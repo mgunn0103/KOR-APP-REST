@@ -24,7 +24,7 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_super_user(self, email, password):
+    def create_superuser(self, email, password):
         """Creates and saves a new superuser"""
         user = self.create_user(email, password)
         user.is_staff = True
@@ -32,7 +32,7 @@ class UserManager(BaseUserManager):
         user.save(using=self.db)
 
         return user
-        
+
 class User(AbstractBaseUser, PermissionsMixin):
     
     """Custom user model that supports using email instead of username"""
