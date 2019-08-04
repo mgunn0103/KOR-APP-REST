@@ -5,4 +5,4 @@ exclude =
     manage.py,
     settings.py
 ignore =
-    W391
+    W391, W291, E501, E302, E231, W293, E265, E225, E126, E303
