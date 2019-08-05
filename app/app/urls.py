@@ -13,9 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+"""This is like a base urls file"""
+
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # We need to tell app.urls to pass any request that is for "user" to our user.urls
+    path('api/user/', include('user.urls')),
 ]
+
+
