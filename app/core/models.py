@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
                                         PermissionsMixin
+from django.conf import settings
+
+# Whenever you create a new model, you need to run migrations
 
 
 class UserManager(BaseUserManager):
@@ -33,6 +36,7 @@ class UserManager(BaseUserManager):
 
         return user
 
+
 class User(AbstractBaseUser, PermissionsMixin):
     
     """Custom user model that supports using email instead of username"""
@@ -50,3 +54,18 @@ class User(AbstractBaseUser, PermissionsMixin):
     # The parent class is expecting a string
     USERNAME_FIELD = 'email'
 
+
+class Tag(models.Model):
+    """Tag to be used for a recipe"""
+    name = models.CharField(max_length=255)
+    # When specifying the ForeignKey, the first argument is the model that we want to specify the 
+    # foreign key off of. 
+    # on_delete = models.CASCADE means if you delete this user, just delete
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+
+    # this is how you define a string representation of
+    def __str__(self):
+        return self.name

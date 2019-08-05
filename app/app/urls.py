@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # We need to tell app.urls to pass any request that is for "user" to our user.urls
     path('api/user/', include('user.urls')),
+    path('api/recipe/', include('recipe.urls'))
 ]
 
 

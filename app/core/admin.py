@@ -48,4 +48,5 @@ class UserAdmin(BaseUserAdmin):
 
 # this registers the UserAdmin class to the User model for the admin site
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Tag)
 
