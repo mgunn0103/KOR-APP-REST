@@ -79,7 +79,7 @@ class Ingredient(models.Model):
         on_delete=models.CASCADE
     )
 
-        # this is how you define a string representation of
+    # this is how you define a string representation of
     def __str__(self):
         return self.name
 
@@ -99,7 +99,7 @@ class Recipe(models.Model):
     # You could also refer to the Models below using the class names without quotes, but there would have 
     # to be a particular order of the classes
     ingredients = models.ManyToManyField('Ingredient')
-    ingredients = models.ManyToManyField('Tag')
+    tags = models.ManyToManyField('Tag')
 
     def __str__(self):
         return self.title
