@@ -171,6 +171,55 @@ class PrivateIngredientsApiTests(TestCase):
         self.assertIn(ingredient1, ingredients)        
         self.assertIn(ingredient2, ingredients)   
 
+    def test_partial_update_recipe(self):
+        """Test updating a recipe with PATCH"""
+        """PATCH is used to update the fields that are provided in the payload"""
+        recipe = sample_recipe(user=self.user)
+        recipe.tags.add(sample_tag(user=self.user))
+
+        """ The title of the created recipe will be changed to Chicken Tika and the tags will
+            be updated to the new tag 
+        """
+        new_tag = sample_tag(user=self.user, name='Curry')
+        payload = {
+            'title': 'Chicken Tikka',
+            'tags': [new_tag.id]
+        }
+
+        url = detail_url(recipe.id)
+        self.client.patch(url, payload)
+
+        """ not checking the response of the patch which is why we are not assigning it to a variable
+            Instead we are going to retrieve an update to the recipe from the database and then we are
+            going to check the fields that are assigned and just make sure they match what we expect.
+        """
+
+        recipe.refresh_from_db()
+        self.assertEqual(recipe.title, payload['title'])
+        tags = recipe.tags.all()
+        self.assertEqual(len(tags), 1)
+        self.assertIn(new_tag, tags)
+
+    def test_full_update_recipe(self):
+        """Test updating a recipe with put"""
+        recipe = sample_recipe(user=self.user)
+        recipe.tags.add(sample_tag(user=self.user))
+        payload = {
+            'title': 'Spaghetti Carbonara',
+            'time_minutes': 25,
+            'price': 5.00
+        }
+
+        url = detail_url(recipe.id)
+        self.client.put(url, payload)
+
+        recipe.refresh_from_db()
+        self.assertEqual(recipe.title, payload['title'])
+        self.assertEqual(recipe.time_minutes, payload['time_minutes'])
+        self.assertEqual(recipe.price, payload['price'])
+
+        tags = recipe.tags.all()
+        self.assertEqual(len(tags), 0)
 
 
 
