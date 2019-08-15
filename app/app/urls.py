@@ -17,6 +17,8 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -24,6 +26,12 @@ urlpatterns = [
     # We need to tell app.urls to pass any request that is for "user" to our user.urls
     path('api/user/', include('user.urls')),
     path('api/recipe/', include('recipe.urls')),
-]
+    # We need to add a url for our media files
+    # By default, the Django development server will serve media files for any static files
+    # within our project, however, it does not serve media files by default
+    # we need to manually add this in the urls
+    # This allows the media url to be available in our development server so we can test uploading 
+    # images for recipes without having to set up a separate web server for serving these media files
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
